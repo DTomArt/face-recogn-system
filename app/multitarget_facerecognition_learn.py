@@ -231,14 +231,14 @@ mcIncRes= ModelCheckpoint(filepath="../Model/FaceRecogn.h5", monitor="val_accura
 cbIncRes=[mcIncRes]
 
 """# Fit-Evaluation of model...
-## Epochs = 100
+## Epochs = 2000
 ## Training data: train_data
 ## Validation data: val_data
 ## Training steps per Epochs = 10
 ## Validation steps per Epochs = 8
 """
 
-his_IncRes = model_IncRes.fit_generator(train_data, steps_per_epoch= 20, epochs= 10000, validation_data= val_data , validation_steps= 8, callbacks=cbIncRes)
+his_IncRes = model_IncRes.fit_generator(train_data, steps_per_epoch= 20, epochs= 2000, validation_data= val_data , validation_steps= 8, callbacks=cbIncRes)
 
 """# Model Accuracy and Loss Plots """
 
