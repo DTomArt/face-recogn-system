@@ -18,7 +18,7 @@ A python web app for detecting faces which uses cv2 for face detection and model
 How to run:
 
 1. Generate model files using celebrity-face-learn-app(or placing them there manually):  
-   celebrity-face-learn-app/Model/FaceRecogn.h5 (file with model)
+   celebrity-face-learn-app/Model/FaceRecogn.h5 (file with model)  
    celebrity-face-learn-app/Model/classes.txt (file with labels(celebrities names) for indexes extracted from model)
 
 2. Run file:  
