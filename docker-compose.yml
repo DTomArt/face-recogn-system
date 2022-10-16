@@ -7,7 +7,7 @@ services:
     container_name: face-recognition-learning
     volumes:
     - ./105_classes_pins_dataset:/home/tomart/105_classes_pins_dataset
-    - ./Model:/home/tomart/app/Model
+    - ./Model:/home/tomart/Model
     deploy:
       resources:
         reservations:

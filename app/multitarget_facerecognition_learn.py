@@ -224,10 +224,10 @@ model_IncRes.summary()
 
 """## Saving best model using Model Checkpoint as callbacks"""
 
-model_IncRes.save('./Model/')
+#model_IncRes.save('../Model/')
 
 from keras.callbacks import ModelCheckpoint
-mcIncRes= ModelCheckpoint(filepath="../Model/FaceRecog.hdf5", monitor="val_accuracy", verbose=1, save_best_only= True)
+mcIncRes= ModelCheckpoint(filepath="../Model/FaceRecogn.h5", monitor="val_accuracy", verbose=1, save_best_only= True)
 cbIncRes=[mcIncRes]
 
 """# Fit-Evaluation of model...
@@ -258,6 +258,7 @@ fig.add_subplot(rows, columns, 2)
 plt.title("LOSS")
 plt.plot(hIncRes['loss'], c='blue')
 plt.plot(hIncRes['val_loss'], c='red')
+plt.savefig('../Model/plot.png')
 
 """## Defining the classes for labelling the final outcome"""
 
@@ -271,7 +272,7 @@ for i in range(0,n+1):
 """## Importing the Saved Best-Model File """
 
 from keras.models import load_model
-model=load_model("../Model/FaceRecog.hdf5")
+model=load_model("../Model/FaceRecogn.h5")
 
 """# Predicting a random Celebrity Picture using the model and showing it's Class Output"""
 
