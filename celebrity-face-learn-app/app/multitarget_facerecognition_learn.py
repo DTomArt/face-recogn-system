@@ -261,6 +261,7 @@ plt.plot(hIncRes['val_loss'], c='red')
 plt.savefig('../Model/plot.png')
 
 """## Defining the classes for labelling the final outcome"""
+from numpy import savetxt
 
 classes = val_data.class_indices
 
@@ -268,6 +269,9 @@ classes = list(classes.keys())
 
 for i in range(0,n+1):
     classes[i]=classes[i]
+
+print('\nClasses:\n', classes)
+savetxt('../Model/classes.txt', classes, delimiter=" ", newline="\n", fmt="%s")
 
 """## Importing the Saved Best-Model File """
 
@@ -296,4 +300,5 @@ input_arr = np.array([i])
 
 pred= np.argmax(model.predict(input_arr))
 
+print(path)
 print(classes[pred])
