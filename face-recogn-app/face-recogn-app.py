@@ -24,7 +24,9 @@ camera = cv2.VideoCapture(0)
 def gen_frames():  
     while True:
         success, frame = camera.read()  # read the camera frame
-        ##
+        if not success:
+            break
+
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=8, minSize=(50,50))
         for (x, y, w, h) in faces:
@@ -67,16 +69,12 @@ def gen_frames():
             cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(frame, name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
-            
-        ##
         
-        if not success:
-            break
-        else:
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+        # send frame to browser
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
+        yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
                    
 @app.route('/')
 def index():
