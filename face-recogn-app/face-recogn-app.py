@@ -7,6 +7,7 @@ from keras import models
 import numpy as np
 from PIL import Image
 import tensorflow as tf
+from keras.applications.inception_resnet_v2 import preprocess_input
 
 #Initialize the Flask app
 app = Flask(__name__)
@@ -25,26 +26,38 @@ def gen_frames():
         success, frame = camera.read()  # read the camera frame
         ##
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=6, minSize=[50,50], maxSize=[350,350])
+        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=8, minSize=(50,50))
         for (x, y, w, h) in faces:
             #print('Person detected!',x, y, w, h)
+            incr_by=20 #in px
+            if y>incr_by: y-=incr_by
+            if x>incr_by: x-=incr_by
+            if h>incr_by: h+=incr_by
+            if w>incr_by: w+=incr_by
+
             roi_color = frame[y:y+h, x:x+w, :]
             # roi_gray = gray[y:y+h, x:x+w]   #region of interest
             # cv2.imwrite(img_item, roi_gray)
             
             #Resize dimensions to match the input to model
-            img_array = cv2.resize(roi_color, [256, 256])
+            img_array = cv2.resize(roi_color, (256, 256))
 
-            from keras.applications.inception_resnet_v2 import preprocess_input
-
+            #preprocessing input
             i=preprocess_input(img_array)
             input_arr = np.array([i])
 
-            pred= np.argmax(model.predict(input_arr))
+            #using model for prediction
+            mod_pred=model.predict(input_arr)
 
-            #using model for name predicting
-            name = classes[pred]
-            print(classes[pred])
+            #calculate probability and show label only above 80% of probability
+            prob=np.max(mod_pred)
+            if prob>0.8:
+                pred = np.argmax(mod_pred)
+                #name predicting based on index
+                name = classes[pred]
+                print(name, '<- with ', round(prob*100, 2), '% probability')
+            else: 
+                name=''
             
             #draw rectangle on screen
             color = (0, 0, 255) #BGR
