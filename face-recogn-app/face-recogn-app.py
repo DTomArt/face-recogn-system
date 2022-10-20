@@ -24,26 +24,19 @@ def gen_frames():
     while True:
         success, frame = camera.read()  # read the camera frame
         ##
-        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(frame, scaleFactor=1.6, minNeighbors=3)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=6, minSize=[50,50], maxSize=[350,350])
         for (x, y, w, h) in faces:
             #print('Person detected!',x, y, w, h)
+            roi_color = frame[y:y+h, x:x+w, :]
             # roi_gray = gray[y:y+h, x:x+w]   #region of interest
-            roi_color = frame[y:y+h, x:x+w]
-            #cv2.imwrite(img_item, roi_gray)
+            # cv2.imwrite(img_item, roi_gray)
             
-            img_array = np.array(roi_color)
-            
-            #Resize dimensions to match tha input to model
-            img_array = np.resize(img_array, (256, 256, 3)) 
+            #Resize dimensions to match the input to model
+            img_array = cv2.resize(roi_color, [256, 256])
 
             from keras.applications.inception_resnet_v2 import preprocess_input
-            # path = random_face()
 
-            # img= image.load_img(path, target_size=(256,256,3))
-            # plt.imshow(img)
-            # plt.axis("off")
-            # i = image.img_to_array(img)
             i=preprocess_input(img_array)
             input_arr = np.array([i])
 
@@ -51,7 +44,7 @@ def gen_frames():
 
             #using model for name predicting
             name = classes[pred]
-            # print(classes[pred])
+            print(classes[pred])
             
             #draw rectangle on screen
             color = (0, 0, 255) #BGR
