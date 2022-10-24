@@ -1,7 +1,9 @@
 version: '3'
 services:
-  tensorflow:
+  learning:
     image: tomart:face-recognition-learning
+    env_file:
+    - .env
     build:
       context: ./app
     container_name: face-recognition-learning

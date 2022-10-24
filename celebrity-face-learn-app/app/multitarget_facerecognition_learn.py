@@ -7,6 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1zacuHU7XOsiXO1Fv2AnpFASI0IA3fV21
 """
 
+from __future__ import print_function
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -220,7 +221,7 @@ X=Dense(units=n+1, activation='softmax')(X)
 model_IncRes = Model(base_model.input, X)
 opt = Adam(learning_rate=1e-4)
 model_IncRes.compile(optimizer=opt,loss=keras.losses.categorical_crossentropy,metrics=['accuracy'])
-model_IncRes.summary()
+#model_IncRes.summary()
 
 """## Saving best model using Model Checkpoint as callbacks"""
 
@@ -277,6 +278,53 @@ savetxt('../Model/classes.txt', classes, delimiter=" ", newline="\n", fmt="%s")
 
 from keras.models import load_model
 model=load_model("../Model/FaceRecogn.h5")
+
+"""## Exporting the Saved Best-Model File to Google Drive"""
+import google.auth
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from googleapiclient.http import MediaFileUpload
+
+def update_file(file_id): #, new_filename, new_revision):
+  """Update an existing file's metadata and content.
+
+  Args:
+    file_id: ID of the file to update.
+    new_filename: Filename of the new content to upload.
+    new_revision: Whether or not to create a new revision for this file.
+  Returns:
+    Updated file metadata if successful, None otherwise.
+  """
+  creds, _ = google.auth.default()
+
+  try:
+    #build service
+    service = build('drive', 'v3', credentials=creds)
+    
+    # First retrieve the file from the API.
+    file = service.files().get(fileId=file_id).execute()
+
+    # File's new content.
+    media_body = MediaFileUpload(
+        '../Model/FaceRecogn.h5', resumable=True)
+
+    # Send the request to the API.
+    updated_file = service.files().update(
+        fileId=file_id,
+        #newRevision=new_revision,
+        media_body=media_body).execute()
+    print(F'Model has been updated with fileID: {file_id}')
+    return updated_file
+  except HttpError as error:
+    print (F'An error occurred: %s' % error)
+    return None
+
+google_drive_file_id=os.getenv('GDRIVE_MODEL_FILE_ID')
+
+if google_drive_file_id is not None:
+    update_file(file_id=google_drive_file_id)
+else:
+    print ('GDRIVE_MODEL_FILE_ID env not provided')
 
 """# Predicting a random Celebrity Picture using the model and showing it's Class Output"""
 
