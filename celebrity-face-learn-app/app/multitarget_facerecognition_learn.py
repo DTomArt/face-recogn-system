@@ -285,13 +285,12 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 
-def update_file(file_id): #, new_filename, new_revision):
+def update_file(file_id, file_path):
   """Update an existing file's metadata and content.
 
   Args:
     file_id: ID of the file to update.
     new_filename: Filename of the new content to upload.
-    new_revision: Whether or not to create a new revision for this file.
   Returns:
     Updated file metadata if successful, None otherwise.
   """
@@ -305,26 +304,33 @@ def update_file(file_id): #, new_filename, new_revision):
     file = service.files().get(fileId=file_id).execute()
 
     # File's new content.
-    media_body = MediaFileUpload(
-        '../Model/FaceRecogn.h5', resumable=True)
+    media_body = MediaFileUpload( file_path, resumable=True)
 
     # Send the request to the API.
     updated_file = service.files().update(
         fileId=file_id,
-        #newRevision=new_revision,
         media_body=media_body).execute()
-    print(F'Model has been updated with fileID: {file_id}')
+    print(F'{file_path} has been updated on drive with fileID: {file_id}')
+
     return updated_file
   except HttpError as error:
     print (F'An error occurred: %s' % error)
     return None
 
-google_drive_file_id=os.getenv('GDRIVE_MODEL_FILE_ID')
+gdrive_model_file_id=os.getenv('GDRIVE_MODEL_FILE_ID')
+gdrive_classes_file_id=os.getenv('GDRIVE_CLASSES_FILE_ID')
 
-if google_drive_file_id is not None:
-    update_file(file_id=google_drive_file_id)
+# saving model
+if gdrive_model_file_id is not None:
+    update_file(file_id=gdrive_model_file_id, file_path='../Model/FaceRecogn.h5')
 else:
     print ('GDRIVE_MODEL_FILE_ID env not provided')
+
+# saving classes
+if gdrive_classes_file_id is not None:
+    update_file(file_id=gdrive_classes_file_id, file_path='../Model/classes.txt')
+else:
+    print ('GDRIVE_CLASSES_FILE_ID env not provided')
 
 """# Predicting a random Celebrity Picture using the model and showing it's Class Output"""
 
