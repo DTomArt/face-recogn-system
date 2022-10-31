@@ -2,19 +2,16 @@
 
 from flask import Flask, render_template, Response
 import cv2
-import os
 from keras import models
 import numpy as np
-from PIL import Image
-import tensorflow as tf
 from keras.applications.inception_resnet_v2 import preprocess_input
 
 #Initialize the Flask app
 app = Flask(__name__)
 
 #Load model
-model = models.load_model('../celebrity-face-learn-app/Model/FaceRecogn.h5')
-classes = np.genfromtxt('../celebrity-face-learn-app/Model/classes.txt', dtype='str', delimiter='\n')
+model = models.load_model('../Model/FaceRecogn.h5')
+classes = np.genfromtxt('../Model/classes.txt', dtype='str', delimiter='\n')
 print('\nClasses detected:\n', classes)
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')

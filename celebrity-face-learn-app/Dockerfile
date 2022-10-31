@@ -1,6 +1,6 @@
 FROM tensorflow/tensorflow:nightly-gpu
 
-RUN apt-get update #&& apt-get install -y python3 python3-pip sudo 
+RUN apt-get update
 
 RUN pip3 install opencv-python-headless && pip3 install scipy
 
