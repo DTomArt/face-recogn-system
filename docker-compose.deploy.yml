@@ -1,0 +1,19 @@
+version: '3'
+services:
+  webapp:
+    image: tomart:face-recognition-app
+    env_file:
+    - .env
+    build:
+      context: ./face-recogn-app
+    container_name: face-recognition-webapp
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+    - ./105_classes_pins_dataset:/home/tomart/105_classes_pins_dataset
+    - ./Model:/home/tomart/Model
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [ gpu ]
