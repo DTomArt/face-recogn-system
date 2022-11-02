@@ -1,12 +1,12 @@
 version: '3'
 services:
   webapp:
-    image: tomart:face-recognition-app
+    image: dtomart:face-recognition-app
     env_file:
     - .env
     build:
       context: ./face-recogn-app
-    container_name: face-recognition-webapp
+    container_name: face-recognition-app
     ports:
       - "127.0.0.1:5000:5000"
     volumes:
