@@ -10,8 +10,8 @@ from keras.applications.inception_resnet_v2 import preprocess_input
 app = Flask(__name__)
 
 #Load model
-model = models.load_model('../Model/FaceRecogn.h5')
-classes = np.genfromtxt('../Model/classes.txt', dtype='str', delimiter='\n')
+model = models.load_model('/home/tartecki/face-recogn-system/Model/FaceRecogn.h5')
+classes = np.genfromtxt('/home/tartecki/face-recogn-system/Model/classes.txt', dtype='str', delimiter='\n')
 print('\nClasses detected:\n', classes)
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')

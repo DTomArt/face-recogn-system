@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: learning-deployment
+  labels:
+    app: face-recogn-learn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: learning
+  template:
+    metadata:
+      labels:
+        app: learning
+    spec:
+      volumes:
+        - name: model-pv-storage
+          persistentVolumeClaim:
+            claimName: model-pv-claim
+        - name: data-pv-storage
+          persistentVolumeClaim:
+            claimName: data-pv-claim
+      containers:
+      - name: face-recogn-learning
+        image: dtomart/face-recognition-learning:1.0
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        volumeMounts:
+          - mountPath: "/home/tartecki/face-recogn-system/Model"
+            name: model-pv-storage
+          - mountPath: "/home/tartecki/face-recogn-system/105_classes_pins_dataset"
+            name: data-pv-storage
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: learning-service
+spec:
+  selector:
+    app: learning
+  ports:
+  - name: learn
+    protocol: TCP
+    port: 5000
+    targetPort: 5001

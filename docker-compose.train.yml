@@ -1,7 +1,7 @@
 version: '3'
 services:
   learning:
-    image: dtomart:face-recognition-learning
+    image: dtomart/face-recognition-learning:1.0
     env_file:
     - .env
     build:

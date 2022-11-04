@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: face-recogn-app
+  labels:
+    role: face-recogn-app
+spec:
+  volumes:
+    - name: model-pv-storage
+      persistentVolumeClaim:
+        claimName: model-pv-claim
+  selector:
+    app.kubernetes.io/name: proxy
+  containers:
+    - name: face-recogn-learn
+      image: dtomart/face-recognition-app:1.0
+      ports:
+        - name: web
+          containerPort: 5000
+          protocol: TCP
+      volumeMounts:
+        - mountPath: "/home/tartecki/face-recogn-system/Model"
+          name: model-pv-storage
+      imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  selector:
+    app.kubernetes.io/name: proxy
+  ports:
+  - name: web
+    protocol: TCP
+    port: 5000
+    targetPort: 5001

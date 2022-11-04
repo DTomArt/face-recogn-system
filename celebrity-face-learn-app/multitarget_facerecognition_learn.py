@@ -19,7 +19,7 @@ import shutil
 
 """## Defining ROOT and Working Directories"""
 
-ROOT_DIR = '../105_classes_pins_dataset'
+ROOT_DIR = '/home/tartecki/face-recogn-system/105_classes_pins_dataset'
 DEST_DIR = './Data'
 
 """## Resetting Data in case of Re-Use ##"""
@@ -279,7 +279,7 @@ savetxt('../Model/classes.txt', classes, delimiter=" ", newline="\n", fmt="%s")
 from keras.models import load_model
 model=load_model("../Model/FaceRecogn.h5")
 
-"""## Exporting the Saved Best-Model File to Google Drive"""
+"""## Exporting the Saved Best-Model File and classes to Google Drive"""
 import google.auth
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
