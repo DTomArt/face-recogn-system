@@ -8,7 +8,7 @@ services:
       context: ./celebrity-face-learn-app
     container_name: face-recognition-learning
     volumes:
-    - ./105_classes_pins_dataset:/home/tomart/105_classes_pins_dataset
+    - ./105_classes_pins_dataset:/home/tartecki/face-recogn-system/105_classes_pins_dataset
     - ./Model:/home/tomart/Model
     deploy:
       resources:

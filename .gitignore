@@ -2,3 +2,4 @@
 Model
 .env
 client_secrets.json
+docker-compose.yml

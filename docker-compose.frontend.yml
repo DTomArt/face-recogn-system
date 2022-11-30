@@ -1,0 +1,9 @@
+version: '3'
+services:
+  frontend:
+    image: dtomart/face-recognition-frontend:1.0
+    env_file:
+    - .env
+    build:
+      context: ./frontend
+    container_name: face-recognition-frontend

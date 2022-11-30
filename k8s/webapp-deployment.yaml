@@ -5,7 +5,7 @@ metadata:
   labels:
     app: face-recogn-app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: webapp
@@ -25,7 +25,8 @@ spec:
       - name: face-recogn-app
         image: dtomart/face-recognition-app:1.0
         ports:
-        - containerPort: 5000
+        - name: http
+          containerPort: 5000
           protocol: TCP
         volumeMounts:
           - mountPath: "/home/tartecki/face-recogn-system/Model"
@@ -37,7 +38,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp-service
+  name: webapp-svc
 spec:
   selector:
     app: webapp
@@ -45,4 +46,4 @@ spec:
   - name: web
     protocol: TCP
     port: 5000
-    targetPort: 5001
+    targetPort: 5000

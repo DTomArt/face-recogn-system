@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .CameraContainer {
+        display: table;
+      }
+
+      .Camera {
+        float: left;
+        background-color: #eae0d5;
+        position: absolute;
+      }
+      .CameraElement {
+        display: table-cell;
+      }
+    </style>
+    <title>Live Streaming</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h1 class="mt-5">Live Streaming</h1>
+        <div class="CameraContainer">
+          <div class="Camera">
+            <!-- <button
+              class="CameraElement"
+              type="button"
+              onclick="show()"
+              id="cam1button"
+            >
+              Show live camera
+            </button>
+            <script>
+              function show() {
+                document.getElementById("cam1").style.display = "block";
+                // document.getElementById("btnID").style.display = "none";
+              }
+            </script> -->
+            <img
+              class="CameraElement"
+              id="cam1"
+              src="{{ url_for('video_feed')
+            }}"
+              visibility="hidden"
+              width="600px"
+              height="auto"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

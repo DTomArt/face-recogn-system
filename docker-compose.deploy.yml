@@ -10,7 +10,7 @@ services:
     ports:
       - "127.0.0.1:5000:5000"
     volumes:
-    - ./105_classes_pins_dataset:/home/tomart/105_classes_pins_dataset
+    - ./105_classes_pins_dataset:/home/tartecki/face-recogn-system/105_classes_pins_dataset
     - ./Model:/home/tomart/Model
     deploy:
       resources:

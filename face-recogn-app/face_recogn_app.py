@@ -5,6 +5,8 @@ import cv2
 from keras import models
 import numpy as np
 from keras.applications.inception_resnet_v2 import preprocess_input
+import time
+import logging
 
 #Initialize the Flask app
 app = Flask(__name__)
@@ -16,13 +18,29 @@ print('\nClasses detected:\n', classes)
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
-camera = cv2.VideoCapture(0)
+# camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture('./images/img_%3d.jpg')
+log = logging.getLogger("mylogger")
 
 def gen_frames():  
+    retries=0
     while True:
         success, frame = camera.read()  # read the camera frame
+        time.sleep(1)
         if not success:
-            break
+            retries+=1
+            if retries == 2:
+                # print('Cannot find a frame! Exitting program...')
+                log.error('Cannot find a frame! Exitting program...')
+                break
+            else:
+                # print('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
+                log.warning('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
+                time.sleep(3)
+                camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                # camera = cv2.VideoCapture(0)
+                continue
+
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=8, minSize=(50,50))
@@ -73,13 +91,14 @@ def gen_frames():
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
                    
-@app.route('/')
+@app.route('/camera')
 def index():
-    return render_template('index.html')
-    
-@app.route('/video_feed')
-def video_feed():
+    # return render_template('index.html')
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    
+# @app.route('/video_feed')
+# def video_feed():
+#     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
     
 if __name__ == "__main__":
     app.run()
