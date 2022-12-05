@@ -23,25 +23,10 @@
         <h1 class="mt-5">Live Streaming</h1>
         <div class="CameraContainer">
           <div class="Camera">
-            <!-- <button
-              class="CameraElement"
-              type="button"
-              onclick="show()"
-              id="cam1button"
-            >
-              Show live camera
-            </button>
-            <script>
-              function show() {
-                document.getElementById("cam1").style.display = "block";
-                // document.getElementById("btnID").style.display = "none";
-              }
-            </script> -->
             <img
               class="CameraElement"
               id="cam1"
-              src="{{ url_for('video_feed')
-            }}"
+              src="{{ url_for('video_feed', pod_ip=pod_ip) }}"
               visibility="hidden"
               width="600px"
               height="auto"

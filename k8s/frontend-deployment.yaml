@@ -28,8 +28,7 @@ metadata:
   name: frontend
 spec:
   selector:
-    app: hello
-    tier: frontend
+    app: face-recogn-front
   ports:
     - protocol: "TCP"
       port: 5080

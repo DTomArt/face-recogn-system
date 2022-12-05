@@ -41,7 +41,7 @@ metadata:
   name: webapp
 spec:
   selector:
-    app: webapp
+    app: face-recogn-app
   ports:
   - name: web
     protocol: TCP
