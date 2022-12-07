@@ -28,12 +28,12 @@ def camera():
 @app.route('/<pod_ip>/video_feed')
 def video_feed(pod_ip):
     # check if ip is valid
-    match = re.match(r"^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$", pod_ip)
-    if bool(match) is False:
-        print("IP address {} is not valid".format(pod_ip))
-        return Response("bad_input", status=401, mimetype='application/json')
+    # match = re.match(r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):(6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9][0-9]|[1-5](\d){4}|[1-9](\d){0,3})$", pod_ip)
+    # if bool(match) is False:
+    #     print("IP address {} is not valid".format(pod_ip))
+    #     return Response("bad_input", status=401, mimetype='application/json')
     
-    res=requests.get('http://' + pod_ip +':5000/camera', stream=True)
+    res=requests.get('http://' + pod_ip + '/camera', stream=True)
     print(res)
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
 
