@@ -2,6 +2,9 @@
 
 # minikube mount /home/tartecki/face-recogn-system:/home/tartecki/face-recogn-system
 
+# kubectl apply -f namespace.yaml
+# kubectl config set-context --current --namespace=face-recogn
+
 cd volumes
 
 kubectl apply -f data-volume.yaml

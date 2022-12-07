@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-deployment
+  namespace: face-recogn
   labels:
     app: frontend
 spec:
@@ -26,6 +27,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: frontend
+  namespace: face-recogn
 spec:
   selector:
     app: frontend
