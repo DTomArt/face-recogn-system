@@ -1,8 +1,8 @@
-FROM tensorflow/tensorflow:2.11.0rc1-gpu
+FROM python:3.9
 
 ENV PATH "${PATH}:/home/tomart/.local/bin"
 
-RUN apt-get update && apt-get install -y python3.8 python3-pip
+RUN apt-get update
 
 COPY ./requirements.txt /home/tomart/frontend/requirements.txt
 

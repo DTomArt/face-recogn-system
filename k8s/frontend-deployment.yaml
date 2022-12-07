@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: frontend-deployment
   labels:
-    app: face-recogn-front
+    app: frontend
 spec:
   replicas: 1
   selector:
@@ -28,11 +28,11 @@ metadata:
   name: frontend
 spec:
   selector:
-    app: face-recogn-front
+    app: frontend
   ports:
     - protocol: "TCP"
       port: 5080
       targetPort: 5080
-  type: LoadBalancer
+  type: NodePort
 
 # kubectl expose deployment frontend-deployment --type=NodePort --port=5080
