@@ -22,7 +22,7 @@ def index():
 
 @app.route('/camera', methods=['POST'])
 def camera():
-    pod_ip = request.form['pod_IP']
+    pod_ip = request.form['pod_ip']
     return render_template('camera.html', pod_ip=pod_ip)
 
 @app.route('/<pod_ip>/video_feed')
