@@ -33,13 +33,13 @@ def video_feed(pod_ip):
     #     print("IP address {} is not valid".format(pod_ip))
     #     return Response("bad_input", status=401, mimetype='application/json')
     
-    res=requests.get('http://' + pod_ip + '/camera', stream=True)
+    res=requests.get('http://webapp-svc.face-recogn:5000/camera', stream=True)
     print(res)
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
 
     
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=5080)
+    app.run(host='0.0.0.0', port=5080)
     
     
 #pip install markupsafe==2.0.1

@@ -101,7 +101,7 @@ def index():
 #     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
     
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
     
     
 #pip install markupsafe==2.0.1
