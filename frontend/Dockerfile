@@ -4,13 +4,13 @@ ENV PATH "${PATH}:/home/tomart/.local/bin"
 
 RUN apt-get update
 
-COPY ./requirements.txt /home/tomart/frontend/requirements.txt
+COPY ./requirements.txt /front/requirements.txt
 
-RUN cd /home/tomart/frontend/ && pip3 install -r requirements.txt
+RUN cd /front/ && pip3 install -r requirements.txt
 
-COPY . /home/tomart/frontend/
+COPY . /front/
 
-WORKDIR /home/tomart/frontend
+WORKDIR /front
 
 RUN chmod g+x ./frontend.py
 

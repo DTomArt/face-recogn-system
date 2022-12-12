@@ -15,11 +15,6 @@ log = logging.getLogger("mylogger")
 def index():
     return render_template('index.html')
 
-# @app.route('/redir')
-# def redir():
-#     return redirect(url_for('camera'))
-
-
 @app.route('/camera', methods=['POST'])
 def camera():
     pod_ip = request.form['pod_ip']
@@ -33,8 +28,7 @@ def video_feed(pod_ip):
     #     print("IP address {} is not valid".format(pod_ip))
     #     return Response("bad_input", status=401, mimetype='application/json')
     
-    res=requests.get('http://webapp-svc.face-recogn:5000/camera', stream=True)
-    print(res)
+    res=requests.get('http://' + pod_ip + ':5000/camera', stream=True)
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
 
     
