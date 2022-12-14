@@ -8,24 +8,40 @@ from keras.applications.inception_resnet_v2 import preprocess_input
 import time
 import logging
 
+import os
+import camera_pb2
+import camera_pb2_grpc
+import grpc
+
 #Initialize the Flask app
 app = Flask(__name__)
 
 #Load model
-model = models.load_model('/home/tartecki/face-recogn-system/Model/FaceRecogn.h5')
-classes = np.genfromtxt('/home/tartecki/face-recogn-system/Model/classes.txt', dtype='str', delimiter='\n')
+# /home/tartecki/face-recogn-system/Model
+model_path = os.environ['MODEL_PATH']
+print('model_path: ', model_path)
+model = models.load_model("{0}/FaceRecogn.h5".format(model_path))
+classes = np.genfromtxt("{0}/classes.txt".format(model_path), dtype='str', delimiter='\n')
 print('\nClasses detected:\n', classes)
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 # camera = cv2.VideoCapture(0)
-camera = cv2.VideoCapture('./images/img_%3d.jpg')
+# camera = cv2.VideoCapture('./images/img_%3d.jpg')
+camera_url = "{0}:80".format(os.environ['CAMERA_SOURCE_SVC'])
 log = logging.getLogger("mylogger")
 
 def gen_frames():  
     retries=0
     while True:
-        success, frame = camera.read()  # read the camera frame
+        # Loops, creating gRPC client and grabing frame from camera serving specified url.
+        client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
+        camera_stub = camera_pb2_grpc.CameraStub(client_channel)
+        frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
+        frame = frame.frame
+        client_channel.close()
+
+        # success, frame = camera.read()  # read the camera frame
         time.sleep(1)
         if not success:
             retries+=1
@@ -37,7 +53,7 @@ def gen_frames():
                 # print('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
                 log.warning('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
                 time.sleep(3)
-                camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                # camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
                 # camera = cv2.VideoCapture(0)
                 continue
 

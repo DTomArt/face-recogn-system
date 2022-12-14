@@ -37,6 +37,11 @@ spec:
         - name: data-pv-storage
           persistentVolumeClaim:
             claimName: data-pv-claim
+      env:
+      - name: CAMERA_SOURCE_SVC
+        value: "akri-udev-video-svc"
+      - name: MODEL_PATH
+        value: "/home/admin/projects/face-recogn/Model"
       containers:
       - name: webapp
         image: dtomart/face-recognition-app:1.0

@@ -1,3 +1,5 @@
 Flask
 keras
 numpy
+grpcio==1.41.0
+grpcio-tools==1.41.0
