@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:2.11.0rc1-gpu
+FROM tensorflow/tensorflow:2.11.0
 
 ENV PATH "${PATH}:/home/tomart/.local/bin"
 
