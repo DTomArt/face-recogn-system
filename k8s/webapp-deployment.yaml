@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: webapp-svc
-  namespace: face-recogn
+  # namespace: face-recogn
 spec:
   type: ClusterIP
   selector:
@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp-deployment
-  namespace: face-recogn
+  # namespace: face-recogn
   labels:
     app: webapp
 spec:
@@ -37,14 +37,9 @@ spec:
         - name: data-pv-storage
           persistentVolumeClaim:
             claimName: data-pv-claim
-      env:
-      - name: CAMERA_SOURCE_SVC
-        value: "akri-udev-video-svc"
-      - name: MODEL_PATH
-        value: "/home/admin/projects/face-recogn/Model"
       containers:
       - name: webapp
-        image: dtomart/face-recognition-app:1.0
+        image: dtomart/face-recognition-app:1.1
         ports:
         - name: http
           containerPort: 5000
@@ -55,4 +50,9 @@ spec:
           - mountPath: "/home/tartecki/face-recogn-system/105_classes_pins_dataset"
             name: data-pv-storage
         imagePullPolicy: Always
+        env:
+        - name: CAMERA_SOURCE_SVC
+          value: "akri-udev-video-svc"
+        - name: MODEL_PATH
+          value: "/home/tartecki/face-recogn-system/Model"
 

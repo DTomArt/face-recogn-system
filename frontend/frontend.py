@@ -28,7 +28,7 @@ def video_feed(pod_ip):
     #     print("IP address {} is not valid".format(pod_ip))
     #     return Response("bad_input", status=401, mimetype='application/json')
     
-    res=requests.get('http://webapp.face-recogn:5000/camera', stream=True)
+    res=requests.get('http://webapp-svc.default:5000/camera', stream=True)
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
 
     

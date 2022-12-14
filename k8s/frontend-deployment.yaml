@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: frontend-svc
-  namespace: face-recogn
+  # namespace: face-recogn
 spec:
   selector:
     app: frontend
@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-deployment
-  namespace: face-recogn
+  # namespace: face-recogn
   labels:
     app: frontend
 spec:
@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: dtomart/face-recognition-frontend:1.0
+        image: dtomart/face-recognition-frontend:1.1
         ports:
         - containerPort: 5080
           protocol: TCP
