@@ -42,7 +42,7 @@ def gen_frames():
         client_channel.close()
 
         # success, frame = camera.read()  # read the camera frame
-        time.sleep(1)
+        # time.sleep(1)
         # if not success:
         #     retries+=1
         #     if retries == 2:
