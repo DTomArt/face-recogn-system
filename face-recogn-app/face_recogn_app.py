@@ -59,7 +59,7 @@ def gen_frames():
 
         # encode frame to CV2 type
         nparr = np.fromstring(frame, np.uint8)
-        frame = cv2.imdecode(nparr, cv2.CV_LOAD_IMAGE_COLOR)
+        frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=8, minSize=(50,50))
