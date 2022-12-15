@@ -34,25 +34,19 @@ spec:
         - name: model-pv-storage
           persistentVolumeClaim:
             claimName: model-pv-claim
-        - name: data-pv-storage
-          persistentVolumeClaim:
-            claimName: data-pv-claim
       containers:
       - name: webapp
         image: dtomart/face-recognition-app:1.1
+        imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 5000
           protocol: TCP
         volumeMounts:
-          - mountPath: "/home/tartecki/face-recogn-system/Model"
+          - mountPath: "/home/admin/projects/face-recogn/Model"
             name: model-pv-storage
-          - mountPath: "/home/tartecki/face-recogn-system/105_classes_pins_dataset"
-            name: data-pv-storage
-        imagePullPolicy: Always
         env:
         - name: CAMERA_SOURCE_SVC
-          value: "akri-udev-video-svc"
+          value: "10.43.212.85"
         - name: MODEL_PATH
-          value: "/home/tartecki/face-recogn-system/Model"
-
+          value: "/home/admin/projects/face-recogn/Model"

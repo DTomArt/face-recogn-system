@@ -43,19 +43,19 @@ def gen_frames():
 
         # success, frame = camera.read()  # read the camera frame
         time.sleep(1)
-        if not success:
-            retries+=1
-            if retries == 2:
-                # print('Cannot find a frame! Exitting program...')
-                log.error('Cannot find a frame! Exitting program...')
-                break
-            else:
-                # print('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
-                log.warning('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
-                time.sleep(3)
-                # camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
-                # camera = cv2.VideoCapture(0)
-                continue
+        # if not success:
+        #     retries+=1
+        #     if retries == 2:
+        #         # print('Cannot find a frame! Exitting program...')
+        #         log.error('Cannot find a frame! Exitting program...')
+        #         break
+        #     else:
+        #         # print('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
+        #         log.warning('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
+        #         time.sleep(3)
+        #         # camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        #         # camera = cv2.VideoCapture(0)
+        #         continue
 
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
