@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, request, Response, send_file
+from flask import Flask, render_template, request, Response
 import time
 import logging
 import requests
@@ -34,7 +34,7 @@ def video_feed(pod_ip):
 
     if not res:
         err=imageio.imread('error.png')
-        return send_file(err, mimetype='image/gif')
+        return Response(err, mimetype='multipart/x-mixed-replace; boundary=frame')
 
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
 
