@@ -39,10 +39,12 @@ def gen_frames():
             client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
             camera_stub = camera_pb2_grpc.CameraStub(client_channel)
         except grpc.RpcError as e:
+            print('dupa1')
             print(e.details())
             status_code = e.code()
             print(status_code)
             err = imageio.imread('error.png')
+            print('dupa2')
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + err + b'\r\n')
             continue
         
