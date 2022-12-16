@@ -6,6 +6,8 @@ import logging
 import requests
 import re
 
+import imageio
+
 #Initialize the Flask app
 app = Flask(__name__)
 
@@ -33,7 +35,7 @@ def video_feed(pod_ip):
     if not res:
         err=imageio.imread('error.png')
         return send_file(err, mimetype='image/gif')
-        
+
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
 
     
