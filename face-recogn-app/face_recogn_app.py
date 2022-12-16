@@ -35,19 +35,18 @@ def gen_frames():
     retries=0
     while True:
         # Loops, creating gRPC client and grabing frame from camera serving specified url.
-        client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
-        camera_stub = camera_pb2_grpc.CameraStub(client_channel)
-        frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
-        frame = frame.frame
-        client_channel.close()
+        try:
+            client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
+            camera_stub = camera_pb2_grpc.CameraStub(client_channel)
+            frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
+            frame = frame.frame
+            client_channel.close()
+        except:
+            err = imageio.imread('error.png')
+            yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + err + b'\r\n')
+            continue
 
         time.sleep(0.05)
-
-        if not frame:
-            return send_file('error.png', mimetype='image/gif')
-            # err = imageio.imread('error.png')
-            # yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + err + b'\r\n')
-            # continue
 
         # encode frame to CV2 type
         nparr = np.fromstring(frame, np.uint8)
