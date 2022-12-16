@@ -35,6 +35,7 @@ def gen_frames():
     retries=0
     while True:
         # Loops, creating gRPC client and grabing frame from camera serving specified url.
+        print('dupa0')
         try:
             client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
             camera_stub = camera_pb2_grpc.CameraStub(client_channel)
