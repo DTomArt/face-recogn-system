@@ -35,10 +35,11 @@ def gen_frames():
     retries=0
     while True:
         # Loops, creating gRPC client and grabing frame from camera serving specified url.
-        print('dupa0')
+        client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
+        camera_stub = camera_pb2_grpc.CameraStub(client_channel)
+        
         try:
-            client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
-            camera_stub = camera_pb2_grpc.CameraStub(client_channel)
+            frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
         except grpc.RpcError as e:
             print('dupa1')
             print(e.details())
@@ -48,8 +49,7 @@ def gen_frames():
             print('dupa2')
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + err + b'\r\n')
             continue
-        
-        frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
+
         frame = frame.frame
         client_channel.close()
 
