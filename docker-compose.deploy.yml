@@ -1,7 +1,7 @@
 version: '3'
 services:
   webapp:
-    image: dtomart/face-recognition-app:1.1
+    image: dtomart/face-recognition-app:1.2
     env_file:
     - .env
     build:
