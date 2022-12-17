@@ -30,7 +30,7 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 camera_url = "{0}:80".format(os.environ['CAMERA_SOURCE_SVC'])
 log = logging.getLogger("mylogger")
 
-err_png = cv2.VideoCapture('./error.png')
+# err_png = cv2.VideoCapture('./error.png')
 
 def gen_frames():  
     retries=0
