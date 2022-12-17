@@ -5,6 +5,8 @@
 # kubectl apply -f namespace.yaml
 # kubectl config set-context --current --namespace=face-recogn
 
+kubectl apply -f configuration.yaml
+
 cd volumes
 
 kubectl apply -f data-volume.yaml
