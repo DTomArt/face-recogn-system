@@ -43,16 +43,16 @@ def gen_frames():
             frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
             frame = frame.frame
             client_channel.close()
-
-            # encode frame to CV2 type
-            nparr = np.fromstring(frame, np.uint8)
-            frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-
         except grpc.RpcError as e:
             logging.info("[%s] Exception %s" % (camera_url, traceback.format_exc()))
             time.sleep(5)
+            continue
 
         time.sleep(0.05)
+
+        # encode frame to CV2 type
+        nparr = np.fromstring(frame, np.uint8)
+        frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=8, minSize=(50,50))
