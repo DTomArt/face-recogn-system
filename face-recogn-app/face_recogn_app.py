@@ -12,6 +12,7 @@ import os
 import camera_pb2
 import camera_pb2_grpc
 import grpc
+import traceback
 
 #Initialize the Flask app
 app = Flask(__name__)
@@ -48,11 +49,8 @@ def gen_frames():
             frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
         except grpc.RpcError as e:
-            success, frame = err_png.read()
-            if not success:
-                time.sleep(10)
-                err_png.set(cv2.CAP_PROP_POS_FRAMES, 0)
-                continue
+            logging.info("[%s] Exception %s" % (camera_url, traceback.format_exc()))
+            sleep(1)
 
         time.sleep(0.05)
 
