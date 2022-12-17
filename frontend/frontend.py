@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, make_response
 import time
 import logging
 import requests
@@ -22,8 +22,12 @@ def camera():
 @app.route('/video_feed')
 def video_feed():
     res=requests.get('http://webapp-svc.default:5000/camera', stream=True)
-    if not res:
-        print('nie dziala')
+    
+    if res.status_code == 500:
+        response = make_response('Cannot find camera', 200)
+        response.mimetype = "text/plain"
+        return response
+    
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
     
 if __name__ == "__main__":
