@@ -6,8 +6,6 @@ import logging
 import requests
 import re
 
-import imageio
-
 #Initialize the Flask app
 app = Flask(__name__)
 
@@ -31,11 +29,6 @@ def video_feed(pod_ip):
     #     return Response("bad_input", status=401, mimetype='application/json')
 
     res=requests.get('http://webapp-svc.default:5000/camera', stream=True)
-
-    if not res:
-        err=imageio.imread('error.png')
-        return Response(err, mimetype='multipart/x-mixed-replace; boundary=frame')
-
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
 
     

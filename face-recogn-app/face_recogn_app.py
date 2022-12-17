@@ -29,21 +29,32 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 camera_url = "{0}:80".format(os.environ['CAMERA_SOURCE_SVC'])
 log = logging.getLogger("mylogger")
 
+err = cv2.VideoCapture('./error.png')
+
 def gen_frames():  
     retries=0
     while True:
         # Loops, creating gRPC client and grabing frame from camera serving specified url.
         client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
         camera_stub = camera_pb2_grpc.CameraStub(client_channel)
-        frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
-        frame = frame.frame
-        client_channel.close()
+        
+        try:
+            frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
+            frame = frame.frame
+            client_channel.close()
+
+            # encode frame to CV2 type
+            nparr = np.fromstring(frame, np.uint8)
+            frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+        except grpc.RpcError as e:
+            success, frame = err.read()
+            if not success:
+                time.sleep(10)
+                camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                continue
 
         time.sleep(0.05)
-
-        # encode frame to CV2 type
-        nparr = np.fromstring(frame, np.uint8)
-        frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=8, minSize=(50,50))

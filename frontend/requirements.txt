@@ -1,3 +1,2 @@
 Flask
 requests
-imageio==2.6.1
