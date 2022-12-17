@@ -39,14 +39,15 @@ def gen_frames():
         client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
         camera_stub = camera_pb2_grpc.CameraStub(client_channel)
         
-        try:
-            frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
-            frame = frame.frame
-            client_channel.close()
-        except grpc.RpcError as e:
-            log.error(e)
-            time.sleep(10)
-            continue
+        # try:
+        frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
+        frame = frame.frame
+        client_channel.close()
+        # except grpc.RpcError as e:
+        #     log.error(e)
+        #     return e, 400
+        #     time.sleep(10)
+        #     continue
 
         time.sleep(0.05)
 
