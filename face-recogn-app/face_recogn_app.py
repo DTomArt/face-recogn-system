@@ -29,7 +29,7 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 camera_url = "{0}:80".format(os.environ['CAMERA_SOURCE_SVC'])
 log = logging.getLogger("mylogger")
 
-err = cv2.VideoCapture('./error.png')
+err_png = cv2.VideoCapture('./error.png')
 
 def gen_frames():  
     retries=0
@@ -48,10 +48,10 @@ def gen_frames():
             frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
         except grpc.RpcError as e:
-            success, frame = err.read()
+            success, frame = err_png.read()
             if not success:
                 time.sleep(10)
-                camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                err_png.set(cv2.CAP_PROP_POS_FRAMES, 0)
                 continue
 
         time.sleep(0.05)
