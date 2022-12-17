@@ -23,15 +23,7 @@
         <h1 class="mt-5">Live Streaming</h1>
         <div class="CameraContainer">
           <div class="Camera">
-            <label for="ip">Pod IP and port:</label><br />
             <form action="{{ url_for('camera') }}" method="post">
-              <input
-                type="text"
-                placeholder="xxx.xxx.xxx:port"
-                name="pod_ip"
-                required="required"
-              />
-              <br />
               <input class="CameraElement" type="submit" value="Show live camera"></input>
             </form>
           </div>

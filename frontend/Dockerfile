@@ -14,4 +14,4 @@ WORKDIR /front
 
 RUN chmod g+x ./frontend.py
 
-CMD [ "./frontend.py" ]
+CMD [ "python", "-u", "frontend.py"]

@@ -47,6 +47,9 @@ spec:
             name: model-pv-storage
         env:
         - name: CAMERA_SOURCE_SVC
-          value: "10.43.212.85"
+          valueFrom:
+            configMapKeyRef:
+              name: cluster-configuration
+              key: CAMERA_SOURCE_SVC
         - name: MODEL_PATH
           value: "/home/admin/projects/face-recogn/Model"

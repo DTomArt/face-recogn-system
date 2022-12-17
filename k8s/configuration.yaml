@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-configuration
+data:
+  CAMERA_SOURCE_SVC: "10.43.212.85"
+  CONFIGURATION_NAME: akri-udev-video
