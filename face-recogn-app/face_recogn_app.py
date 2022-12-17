@@ -44,7 +44,7 @@ def gen_frames():
             frame = frame.frame
             client_channel.close()
         except grpc.RpcError as e:
-            log.error(e.details())
+            log.error(e)
             time.sleep(10)
             continue
 
