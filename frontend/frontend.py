@@ -17,7 +17,7 @@ def index():
 
 @app.route('/camera', methods=['POST'])
 def camera():
-    return render_template('camera.html', pod_ip=pod_ip)
+    return render_template('camera.html')
 
 @app.route('/video_feed')
 def video_feed():
