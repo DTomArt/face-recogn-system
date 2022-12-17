@@ -50,7 +50,7 @@ def gen_frames():
 
         except grpc.RpcError as e:
             logging.info("[%s] Exception %s" % (camera_url, traceback.format_exc()))
-            sleep(1)
+            time.sleep(5)
 
         time.sleep(0.05)
 
