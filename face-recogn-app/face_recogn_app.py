@@ -44,8 +44,8 @@ def gen_frames():
             frame = frame.frame
             client_channel.close()
         except grpc.RpcError as e:
-            logging.info("[%s] Exception %s" % (camera_url, traceback.format_exc()))
-            time.sleep(5)
+            log.error(e.details())
+            time.sleep(10)
             continue
 
         time.sleep(0.05)
