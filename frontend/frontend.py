@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, request, Response, make_response
+from flask import Flask, render_template, request, Response, send_file
 import time
 import logging
 import requests
@@ -24,9 +24,8 @@ def video_feed():
     res=requests.get('http://webapp-svc.default:5000/camera', stream=True)
     
     if res.status_code == 500:
-        response = make_response('Cannot find camera', 200)
-        response.mimetype = "text/plain"
-        return response
+        print('aloha')
+        return send_file('error.png', mimetype='image/gif')
     
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
     
