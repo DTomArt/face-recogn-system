@@ -24,7 +24,6 @@ def video_feed():
     res=requests.get('http://webapp-svc.default:5000/camera', stream=True)
     
     if res.status_code == 500:
-        print('aloha')
         return send_file('error.png', mimetype='image/gif')
     
     return Response(res.iter_content(chunk_size=10*1024), mimetype='multipart/x-mixed-replace; boundary=frame')
