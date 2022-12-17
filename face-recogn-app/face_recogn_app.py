@@ -12,8 +12,7 @@ import os
 import camera_pb2
 import camera_pb2_grpc
 import grpc
-
-import imageio
+import traceback
 
 #Initialize the Flask app
 app = Flask(__name__)
@@ -31,24 +30,23 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 camera_url = "{0}:80".format(os.environ['CAMERA_SOURCE_SVC'])
 log = logging.getLogger("mylogger")
 
+# err_png = cv2.VideoCapture('./error.png')
+
 def gen_frames():  
     retries=0
     while True:
         # Loops, creating gRPC client and grabing frame from camera serving specified url.
-        try:
-            client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
-            camera_stub = camera_pb2_grpc.CameraStub(client_channel)
-        except grpc.RpcError as e:
-            print(e.details())
-            status_code = e.code()
-            print(status_code)
-            err = imageio.imread('error.png')
-            yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + err + b'\r\n')
-            continue
+        client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
+        camera_stub = camera_pb2_grpc.CameraStub(client_channel)
         
-        frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
-        frame = frame.frame
-        client_channel.close()
+        try:
+            frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
+            frame = frame.frame
+            client_channel.close()
+        except grpc.RpcError as e:
+            log.error(e)
+            time.sleep(10)
+            continue
 
         time.sleep(0.05)
 
