@@ -13,5 +13,3 @@ kubectl delete pvc data-pv-claim
 kubectl delete pv data-pv-volume
 
 kubectl delete configmap cluster-configuration
-
-# kubectl delete akric akri-udev-video && helm delete akri
