@@ -43,7 +43,7 @@ spec:
           containerPort: 5000
           protocol: TCP
         volumeMounts:
-          - mountPath: "/home/admin/projects/face-recogn/Model"
+          - mountPath: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
             name: model-pv-storage
         env:
         - name: CAMERA_SOURCE_SVC
@@ -52,4 +52,4 @@ spec:
               name: cluster-configuration
               key: CAMERA_SOURCE_SVC
         - name: MODEL_PATH
-          value: "/home/admin/projects/face-recogn/Model"
+          value: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
