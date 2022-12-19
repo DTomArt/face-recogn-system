@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: webapp-svc
-  # namespace: face-recogn
+  namespace: face-recogn
 spec:
   type: ClusterIP
   selector:
@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp-deployment
-  # namespace: face-recogn
+  namespace: face-recogn
   labels:
     app: webapp
 spec:

@@ -21,7 +21,7 @@ def camera():
 
 @app.route('/video_feed')
 def video_feed():
-    res=requests.get('http://webapp-svc.default:5000/camera', stream=True)
+    res=requests.get('http://webapp-svc.face-recogn:5000/camera', stream=True)
     
     if res.status_code == 500:
         return send_file('error.png', mimetype='image/gif')

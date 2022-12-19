@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: cluster-configuration
 data:
-  CAMERA_SOURCE_SVC: "10.43.212.85"
+  CAMERA_SOURCE_SVC: "10.43.190.10"
   CONFIGURATION_NAME: akri-udev-video
