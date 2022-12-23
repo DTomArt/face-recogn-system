@@ -156,7 +156,7 @@ def get_camera_display(configuration_name):
     instance_service_name_regex = re.compile(
         configuration_name + "-[\da-f]{6}-svc")
 
-    ret = coreV1Api.list_service_for_all_namespaces(watch=False)
+    ret = coreV1Api.list_namespaced_service("face-recogn", watch=False)
     for svc in ret.items:
         if svc.metadata.name == configuration_name + "-svc":
             grpc_ports = list(

@@ -1,4 +1,4 @@
 #!/bin/bash
 
 ./delete-cameras.sh
-./delete.sh
+./delete-deployment.sh

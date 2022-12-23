@@ -21,7 +21,7 @@ metadata:
   labels:
     app: webapp
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: webapp
@@ -46,7 +46,5 @@ spec:
           - mountPath: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
             name: model-pv-storage
         env:
-        - name: CONFIGURATION_NAME
-          value: akri-udev-video
         - name: MODEL_PATH
           value: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane

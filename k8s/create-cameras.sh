@@ -7,7 +7,7 @@ helm install akri akri-helm-charts/akri   \
     --set udev.discovery.enabled=true \
     --set udev.configuration.enabled=true \
     --set udev.configuration.name=akri-udev-video \
-    --set udev.configuration.discoveryDetails.udevRules[0]='KERNEL=="video[0-9]"' \
+    --set udev.configuration.discoveryDetails.udevRules[0]='KERNEL=="video0"' \
     --set udev.configuration.brokerPod.image.repository="phajder/udev-k8s-video-broker" \
     --set udev.configuration.brokerPod.image.tag="latest" \
     --set udev.configuration.brokerProperties.FORMAT='MJPG' \
