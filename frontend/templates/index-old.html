@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .CameraContainer {
+        display: table;
+      }
+
+      .Camera {
+        float: left;
+        background-color: #eae0d5;
+        position: absolute;
+      }
+      .CameraElement {
+        display: table-cell;
+      }
+    </style>
+    <title>Live Streaming</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h1 class="mt-5">Live Streaming</h1>
+        <div class="CameraContainer">
+          <div class="Camera">
+            <form action="{{ url_for('camera') }}" method="post">
+              <input class="CameraElement" type="submit" value="Show live camera"></input>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
