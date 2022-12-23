@@ -25,7 +25,7 @@
     <h1>Live Streaming</h1>
     {%if camera_count > 0 %}
     <div style="display: inline-block;clear:both;margin-bottom:30px">
-      <img src="{{ url_for('camera_frame_feed', camera_id = 0) }}" style="width:480px">
+      <img src="{{ url_for('camera_frame_feed', camera_id = 0) }}" style="width:480px;height:480px">
     </div>
     {%endif%}
     <ul style="display: block;list-style-type: none;padding:0;">
@@ -47,7 +47,7 @@
         }
       });
     }
-    setInterval(refresh_on_device_change, 1000);
+    setInterval(refresh_on_device_change, 2000);
   </script>
 </body>
 
