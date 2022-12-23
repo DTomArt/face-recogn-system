@@ -1,2 +1,6 @@
 Flask
 requests
+grpcio==1.41.0
+grpcio-tools==1.41.0
+kubernetes==19.15.0
+protobuf==3.19.1
