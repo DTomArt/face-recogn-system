@@ -176,7 +176,7 @@ def get_camera_display(configuration_name):
     return camera_display
 
 def run_webserver():
-    app.run(host='0.0.0.0', port=5000, threaded=True)
+app.run(host='0.0.0.0', port=5080, threaded=True)
 
 def refresh_cameras():
     global global_camera_display
