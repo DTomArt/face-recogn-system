@@ -205,12 +205,12 @@ def camera_list():
     return global_camera_display.hash_code()
 
 # Redirect for specified camera.
-@app.route('/show_camera_frame/<camera_id>')
+@app.route('/show_camera_frame/<camera_id>', methods=['GET', 'POST'])
 def show_camera_frame(camera_id=0):
     return redirect(url_for('camera_frame_feed', camera_id = camera_id))
 
 # Gets frame feed for specified camera.
-@app.route('/camera_frame_feed/<camera_id>')
+@app.route('/camera_frame_feed/<camera_id>', methods=['GET', 'POST'])
 def camera_frame_feed(camera_id=0):
     global global_camera_display
     return global_camera_display.stream_frames(camera_id)
