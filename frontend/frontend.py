@@ -14,7 +14,7 @@ from concurrent import futures
 import queue
 import traceback
 
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, redirect
 
 from kubernetes import client, config
 import re
@@ -203,6 +203,11 @@ def camera_list():
     global global_camera_display
     logging.info("Expected cameras: %s" % global_camera_display.hash_code())
     return global_camera_display.hash_code()
+
+# Redirect for specified camera.
+@app.route('/show_camera_frame/<camera_id>')
+def show_camera_frame(camera_id=0):
+    return redirect(url_for('camera_frame_feed', camera_id = camera_id))
 
 # Gets frame feed for specified camera.
 @app.route('/camera_frame_feed/<camera_id>')
