@@ -36,7 +36,7 @@ spec:
             claimName: model-pv-claim
       containers:
       - name: webapp
-        image: dtomart/face-recognition-app:1.2
+        image: dtomart/face-recognition-app:1.3
         imagePullPolicy: Always
         ports:
         - name: http
@@ -46,10 +46,7 @@ spec:
           - mountPath: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
             name: model-pv-storage
         env:
-        - name: CAMERA_SOURCE_SVC
-          valueFrom:
-            configMapKeyRef:
-              name: cluster-configuration
-              key: CAMERA_SOURCE_SVC
+        - name: CONFIGURATION_NAME
+          value: akri-udev-video
         - name: MODEL_PATH
           value: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane

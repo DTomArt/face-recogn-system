@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: dtomart/face-recognition-frontend:1.2
+        image: dtomart/face-recognition-frontend:1.3
         ports:
         - containerPort: 5080
           protocol: TCP
