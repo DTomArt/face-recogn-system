@@ -130,7 +130,7 @@ class CameraDisplay:
         self.mutex.release()
         return cameras
 
-    def stream_frames(self, camera_id, useModel):
+    def stream_frames(self, camera_id, use_model):
         selected_camera = None
         camera_id = int(camera_id)
 
@@ -144,7 +144,7 @@ class CameraDisplay:
         if selected_camera is None:
             return Response(None, 500)
         else:
-            if useModel is False:
+            if use_model is False:
                 return Response(selected_camera.generator_func(), mimetype='multipart/x-mixed-replace; boundary=frame')
             else:
                 #sending frame to backend
@@ -212,13 +212,13 @@ def camera_list():
 # Redirect for specified camera.
 @app.route('/show_camera_frame/<camera_id>', methods=['GET', 'POST'])
 def show_camera_frame(camera_id=0):
-    return redirect(url_for('camera_frame_feed', camera_id = camera_id, useModel = True))
+    return redirect(url_for('camera_frame_feed', camera_id = camera_id, use_model = True))
 
 # Gets frame feed for specified camera.
-@app.route('/camera_frame_feed/<camera_id>/<useModel>', methods=['GET', 'POST'])
-def camera_frame_feed(camera_id=0, useModel=False):
+@app.route('/camera_frame_feed/<camera_id>/<use_model>', methods=['GET', 'POST'])
+def camera_frame_feed(camera_id=0, use_model=False):
     global global_camera_display
-    return global_camera_display.stream_frames(camera_id, useModel)
+    return global_camera_display.stream_frames(camera_id, use_model)
 
 print("Starting...", flush=True)
 logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.INFO, datefmt="%H:%M:%S")
