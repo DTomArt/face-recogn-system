@@ -215,7 +215,7 @@ def show_camera_frame(camera_id=0):
     return redirect(url_for('camera_frame_feed', camera_id = camera_id, useModel = True))
 
 # Gets frame feed for specified camera.
-@app.route('/camera_frame_feed/<camera_id>', methods=['GET', 'POST'])
+@app.route('/camera_frame_feed/<camera_id>/<useModel>', methods=['GET', 'POST'])
 def camera_frame_feed(camera_id=0, useModel=False):
     global global_camera_display
     return global_camera_display.stream_frames(camera_id, useModel)
