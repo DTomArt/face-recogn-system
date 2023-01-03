@@ -17,11 +17,13 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 #Load model and classess
-model_path = os.environ['MODEL_PATH']
-print('model_path: ', model_path)
+# model_path = os.environ['MODEL_PATH']
+# print('model_path: ', model_path)
 
-model = models.load_model("{0}/FaceRecogn.h5".format(model_path))
-classes = np.genfromtxt("{0}/classes.txt".format(model_path), dtype='str', delimiter='\n')
+# model = models.load_model("{0}/FaceRecogn.h5".format(model_path))
+# classes = np.genfromtxt("{0}/classes.txt".format(model_path), dtype='str', delimiter='\n')
+model = models.load_model("./Model/FaceRecogn.h5")
+classes = np.genfromtxt("./Model/classes.txt", dtype='str', delimiter='\n')
 print('\nClasses detected:\n', classes)
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
