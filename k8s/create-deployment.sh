@@ -18,7 +18,7 @@ kubectl apply -f model-claim.yaml
 
 cd -
 
-kubectl apply -f webapp-deployment.yaml
+# kubectl apply -f webapp-deployment.yaml
 kubectl apply -f frontend-deployment.yaml
 # kubectl apply -f learning-deployment.yaml
 

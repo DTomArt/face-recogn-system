@@ -18,6 +18,7 @@ from flask import Flask, render_template, Response, redirect, url_for
 
 from kubernetes import client, config
 import re
+import socketio
 
 class CameraFeed:
     def __init__(self, url):
@@ -46,6 +47,21 @@ class CameraFeed:
         while not self.stop_event.wait(0.01):
             frame = self.queue.get(True, None)
             yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    
+    # Generator function for video streaming with recognition.
+    def generator_func_face_recogn(self):
+        sio = socketio.Client()
+        sio = sio.connect('http://webapp-svc.face-recogn:5000')
+
+        while not self.stop_event.wait(0.01):
+            frame = self.queue.get(True, None)
+            sio.emit('image', frame)  
+            # yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        
+        @sio.on('response_back')
+        def on_message(data):
+            # print('I received a message')
+            yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + data + b'\r\n')
 
     # Loops, creating gRPC client and grabing frame from camera serving specified url.
     def get_frames(self):
