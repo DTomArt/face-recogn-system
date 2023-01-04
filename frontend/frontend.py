@@ -160,7 +160,7 @@ class CameraDisplay:
         if selected_camera is None:
             return Response(None, 500)
         else:
-            if use_model is True:
+            if use_model:
                 #sending frame to backend
                 print('Frame sent to backend')
                 return Response(selected_camera.generator_func_face_recogn(), mimetype='multipart/x-mixed-replace; boundary=frame')
