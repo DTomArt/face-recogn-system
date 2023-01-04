@@ -156,16 +156,16 @@ class CameraDisplay:
         elif camera_id - 1 < len(self.small_cameras):
             selected_camera = self.small_cameras[camera_id - 1]
         self.mutex.release()
-        
+        print('use_model is: ', use_model)
         if selected_camera is None:
             return Response(None, 500)
         else:
-            if use_model is False:
-                return Response(selected_camera.generator_func(), mimetype='multipart/x-mixed-replace; boundary=frame')
-            else:
+            if use_model is True:
                 #sending frame to backend
                 print('Frame sent to backend')
                 return Response(selected_camera.generator_func_face_recogn(), mimetype='multipart/x-mixed-replace; boundary=frame')
+            else:
+                return Response(selected_camera.generator_func(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 def get_camera_display(configuration_name):
     camera_display = CameraDisplay()
