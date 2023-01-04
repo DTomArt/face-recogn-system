@@ -21,7 +21,7 @@ metadata:
   labels:
     app: webapp
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: webapp
@@ -30,10 +30,10 @@ spec:
       labels:
         app: webapp
     spec:
-      volumes:
-        - name: model-pv-storage
-          persistentVolumeClaim:
-            claimName: model-pv-claim
+      # volumes:
+      #   - name: model-pv-storage
+      #     persistentVolumeClaim:
+      #       claimName: model-pv-claim
       containers:
       - name: webapp
         image: dtomart/face-recognition-app:1.3
@@ -42,9 +42,9 @@ spec:
         - name: http
           containerPort: 5000
           protocol: TCP
-        volumeMounts:
-          - mountPath: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
-            name: model-pv-storage
-        env:
-        - name: MODEL_PATH
-          value: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
+        # volumeMounts:
+        #   - mountPath: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
+        #     name: model-pv-storage
+        # env:
+        # - name: MODEL_PATH
+        #   value: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
