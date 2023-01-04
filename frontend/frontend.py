@@ -158,10 +158,11 @@ class CameraDisplay:
         self.mutex.release()
         print('use_model is: ', use_model)
         print(type(use_model))
+        print(use_model)
         if selected_camera is None:
             return Response(None, 500)
         else:
-            if use_model == True:
+            if use_model is 'True':
                 #sending frame to backend
                 print('Frame sent to backend')
                 return Response(selected_camera.generator_func_face_recogn(), mimetype='multipart/x-mixed-replace; boundary=frame')
