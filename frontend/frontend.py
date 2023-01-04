@@ -167,7 +167,7 @@ class CameraDisplay:
                 print('Frame sent to backend')
                 return Response(selected_camera.generator_func_face_recogn(), mimetype='multipart/x-mixed-replace; boundary=frame')
             else:
-                return Response(selected_camera.generator_func(), mimetype='multipart/x-mixed-replace; boundary=frame')
+                return Response(selected_camera.generator_func_face_recogn(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 def get_camera_display(configuration_name):
     camera_display = CameraDisplay()
