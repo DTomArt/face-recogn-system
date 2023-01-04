@@ -14,7 +14,7 @@ from flask_socketio import SocketIO, emit
 
 #Initialize the Flask app
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app, logger=True, engineio_logger=True)
 
 #Load model and classess
 # model_path = os.environ['MODEL_PATH']
