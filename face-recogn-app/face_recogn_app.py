@@ -35,6 +35,7 @@ log = logging.getLogger("mylogger")
 
 @socketio.on('image')
 def image(data_image):
+    print('Received data image!')
     sbuf = StringIO()
     sbuf.write(data_image)
 
