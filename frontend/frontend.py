@@ -52,17 +52,29 @@ class CameraFeed:
     def generator_func_face_recogn(self):
         sio = socketio.Client()
         sio.connect('ws://webapp-svc.face-recogn:5000')
-
-        @sio.event
-        def connect():
-            print("Connected to face-recogn-app!")
-            while not self.stop_event.wait(0.01):
+        
+        while not self.stop_event.wait(0.01):
                 frame = self.queue.get(True, None)
+                print('frame: ', frame)
                 sio.emit('image', frame) 
+                
+        # @sio.event
+        # def connect():
+        #     print("Connected to face-recogn-app!")
+        #     while not self.stop_event.wait(0.01):
+        #         frame = self.queue.get(True, None)
+        #         print('frame: ', frame)
+        #         sio.emit('image', frame) 
         
         @sio.event
         def connect_error():
             print("The connection failed!")
+
+        @sio.on('*')
+        def catch_all(event, data):
+            print('Events intercepted!!')
+            print(event, data)
+            pass
 
         @sio.on('response_back')
         def response_back(data):
