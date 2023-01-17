@@ -55,9 +55,8 @@ class CameraFeed:
         
         while not self.stop_event.wait(0.01):
                 frame = self.queue.get(True, None)
-                print('frame: ', frame)
                 sio.emit('image', frame) 
-                
+
         # @sio.event
         # def connect():
         #     print("Connected to face-recogn-app!")

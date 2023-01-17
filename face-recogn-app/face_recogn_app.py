@@ -11,6 +11,7 @@ import logging
 import os
 import traceback
 from flask_socketio import SocketIO, emit
+from io import StringIO
 
 #Initialize the Flask app
 app = Flask(__name__)
