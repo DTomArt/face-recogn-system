@@ -56,9 +56,9 @@ class CameraFeed:
         @sio.event
         def connect():
             print("Connected to face-recogn-app!")
-            while not self.stop_event.wait(0.01):
-                frame = self.queue.get(True, None)
-                sio.emit('image', frame) 
+            # while not self.stop_event.wait(0.01):
+            frame = self.queue.get(True, None)
+            sio.emit('image', frame) 
         
         @sio.event
         def connect_error():
@@ -169,7 +169,7 @@ class CameraDisplay:
         if selected_camera is None:
             return Response(None, 500)
         else:
-            if use_model is 'True':
+            if use_model == 'True':
                 #sending frame to backend
                 print('Frame sent to backend')
                 return Response(selected_camera.generator_func_face_recogn(), mimetype='multipart/x-mixed-replace; boundary=frame')
