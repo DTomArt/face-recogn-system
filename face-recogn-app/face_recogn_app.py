@@ -11,7 +11,8 @@ import logging
 import os
 import traceback
 from flask_socketio import SocketIO, emit
-from io import StringIO
+import io
+from PIL import Image
 
 #Initialize the Flask app
 app = Flask(__name__)
@@ -36,12 +37,8 @@ log = logging.getLogger("mylogger")
 
 @socketio.on('image')
 def image(data_image):
-    print('Received data image!')
-    sbuf = StringIO()
-    sbuf.write(data_image)
-
     # decode and convert into image
-    b = io.BytesIO(base64.b64decode(data_image))
+    b = io.BytesIO(data_image)
     pimg = Image.open(b)
 
     ## converting RGB to BGR, as opencv standards
@@ -105,6 +102,7 @@ def image(data_image):
         stringData = b64_src + stringData
 
         # emit the frame back
+        print('Emitting the frame back...')
         emit('response_back', stringData)
         
         # yield (b'--frame\r\n'

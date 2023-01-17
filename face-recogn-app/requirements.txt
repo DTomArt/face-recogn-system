@@ -8,3 +8,4 @@ python-socketio==5.5.2
 Werkzeug==2.0.1
 eventlet==0.33.2
 dnspython==2.2.1
+pillow
