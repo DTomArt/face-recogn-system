@@ -4,5 +4,5 @@ grpcio==1.41.0
 grpcio-tools==1.41.0
 kubernetes==19.15.0
 protobuf==3.19.1
-python-engineio==3.13.2
-python-socketio==4.6.0
+python-engineio==4.3.1
+python-socketio==5.5.2

@@ -11,7 +11,7 @@ import logging
 import os
 import traceback
 from flask_socketio import SocketIO, emit
-import StringIO
+from io import StringIO
 
 #Initialize the Flask app
 app = Flask(__name__)
@@ -37,8 +37,8 @@ log = logging.getLogger("mylogger")
 @socketio.on('image')
 def image(data_image):
     print('Received data image!')
-    sbuf = StringIO.StringIO()
-    sbuf.write(data_image)
+    sbuf = StringIO(data_image)
+    # sbuf.write(data_image)
 
     # decode and convert into image
     b = io.BytesIO(base64.b64decode(data_image))
