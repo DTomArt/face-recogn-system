@@ -6,10 +6,10 @@ kubectl delete deployment frontend-deployment
 kubectl delete service/webapp-svc
 kubectl delete service/frontend-svc
 
-kubectl delete pvc model-pv-claim
-kubectl delete pv model-pv-volume
+# kubectl delete pvc model-pv-claim
+# kubectl delete pv model-pv-volume
 
-kubectl delete pvc data-pv-claim
-kubectl delete pv data-pv-volume
+# kubectl delete pvc data-pv-claim
+# kubectl delete pv data-pv-volume
 
 kubectl delete configmap cluster-configuration

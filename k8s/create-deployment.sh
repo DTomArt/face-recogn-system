@@ -8,15 +8,15 @@
 
 kubectl apply -f configuration.yaml
 
-cd volumes
+# cd volumes
 
-kubectl apply -f data-volume.yaml
-kubectl apply -f data-claim.yaml
+# kubectl apply -f data-volume.yaml
+# kubectl apply -f data-claim.yaml
 
-kubectl apply -f model-volume.yaml
-kubectl apply -f model-claim.yaml
+# kubectl apply -f model-volume.yaml
+# kubectl apply -f model-claim.yaml
 
-cd -
+# cd -
 
 kubectl apply -f webapp-deployment.yaml
 kubectl apply -f frontend-deployment.yaml

@@ -30,10 +30,10 @@ spec:
       labels:
         app: webapp
     spec:
-      volumes:
-        - name: model-pv-storage
-          persistentVolumeClaim:
-            claimName: model-pv-claim
+      # volumes:
+      #   - name: model-pv-storage
+      #     persistentVolumeClaim:
+      #       claimName: model-pv-claim
       containers:
       - name: webapp
         image: dtomart/face-recognition-app:1.4
