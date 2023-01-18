@@ -36,15 +36,15 @@ spec:
             claimName: model-pv-claim
       containers:
       - name: webapp
-        image: dtomart/face-recognition-app:1.2
+        image: dtomart/face-recognition-app:1.4
         imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 5000
           protocol: TCP
-        volumeMounts:
-          - mountPath: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
-            name: model-pv-storage
+        # volumeMounts:
+        #   - mountPath: "/home/admin/projects/face-recogn/Model" # edit this path to match your control-plane
+        #     name: model-pv-storage
         env:
         - name: CAMERA_SOURCE_SVC
           valueFrom:
