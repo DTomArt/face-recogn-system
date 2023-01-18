@@ -51,7 +51,7 @@ def image(data_image):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=8, minSize=(50,50))
     for (x, y, w, h) in faces:
-        #print('Person detected!',x, y, w, h)
+        print('Person detected!',x, y, w, h)
         incr_by=20 #in px
         if y>incr_by: y-=incr_by
         if x>incr_by: x-=incr_by
@@ -90,23 +90,14 @@ def image(data_image):
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.putText(frame, name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
 
-        # # send frame to browser
-        # ret, buffer = cv2.imencode('.jpg', frame)
-        # frame = buffer.tobytes()
-
-        imgencode = cv2.imencode('.jpg', frame)[1]
-
-        # base64 encode
-        stringData = base64.b64encode(imgencode).decode('utf-8')
-        b64_src = 'data:image/jpg;base64,'
-        stringData = b64_src + stringData
+        # decode frame to bytes
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
 
         # emit the frame back
         print('Emitting the frame back...')
-        emit('response_back', stringData)
-        
-        # yield (b'--frame\r\n'
-        #         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+        emit('response_back', frame)
+
                    
 @app.route('/camera')
 def index():
