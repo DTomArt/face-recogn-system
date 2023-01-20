@@ -1,10 +1,10 @@
-FROM nvcr.io/nvidia/l4t-tensorflow:r32.7.1-tf2.7-py3
+FROM python:3.10-slim-bullseye
 
 ENV PATH "${PATH}:/home/tomart/.local/bin"
 
 RUN apt-get update
 
-RUN pip3 install --upgrade pip && pip3 install opencv-python-headless
+RUN pip3 install opencv-python-headless
 
 COPY ./requirements.txt /home/tomart/webapp/requirements.txt
 
