@@ -24,7 +24,7 @@ print('\nClasses detected:\n', classes)
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 camera_url = "{0}:80".format(os.environ['CAMERA_SOURCE_SVC'])
-print('Connecting to camer with ip: ', camera_url)
+print('Connecting to camera with ip: ', camera_url)
 log = logging.getLogger("mylogger")
 
 # err_png = cv2.VideoCapture('./error.png')

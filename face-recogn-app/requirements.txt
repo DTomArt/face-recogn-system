@@ -1,5 +1,4 @@
-Flask
-keras
-numpy
+Flask==2.0.3
 grpcio==1.41.0
 grpcio-tools==1.41.0
+opencv-python-headless
