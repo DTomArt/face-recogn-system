@@ -13,12 +13,20 @@ import camera_pb2
 import camera_pb2_grpc
 import grpc
 import traceback
+import tensorflow as tf
 
 #Initialize the Flask app
 app = Flask(__name__)
 
-model = models.load_model("./Model/FaceRecogn.h5")
-classes = np.genfromtxt("./Model/classes.txt", dtype='str', delimiter='\n')
+device = tf.config.list_physical_devices('GPU')
+if len(device) > 0:
+   tf.config.experimental.set_memory_growth(device[0],True)
+   tf.config.experimental.set_virtual_device_configuration(device[0],
+     [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=512)])
+
+model = models.load_model("./Model/mdl1")
+
+classes = np.genfromtxt("./Model/classes_mdl1.txt", dtype='str', delimiter='\n')
 print('\nClasses detected:\n', classes)
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
