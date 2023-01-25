@@ -14,6 +14,7 @@ import camera_pb2_grpc
 import grpc
 import traceback
 import tensorflow as tf
+import time
 
 #Initialize the Flask app
 app = Flask(__name__)
@@ -61,6 +62,9 @@ def gen_frames():
         frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        #start detection
+        # start_time = time.time()
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=8, minSize=(50,50))
         for (x, y, w, h) in faces:
             #print('Person detected!',x, y, w, h)
@@ -101,8 +105,13 @@ def gen_frames():
             cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(frame, name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
-        
-        # send frame to browser
+
+        # #measure time of detection
+        # end_time = time.time()
+        # time_of_detection=end_time - start_time
+        # print(time_of_detection)
+
+# send frame to browser
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
         yield (b'--frame\r\n'
