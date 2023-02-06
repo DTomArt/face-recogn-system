@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-configuration
+data:
+  CAMERA_SOURCE_SVC: "10.43.212.70" # place here CLUSTER-IP from service/akri-udev-video-XXXXXX-svc (selected camera)
+  CONFIGURATION_NAME: akri-udev-video # not used in this version

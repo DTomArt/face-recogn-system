@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, send_file
 import cv2
 from keras import models
 import numpy as np
@@ -8,41 +8,63 @@ from keras.applications.inception_resnet_v2 import preprocess_input
 import time
 import logging
 
+import os
+import camera_pb2
+import camera_pb2_grpc
+import grpc
+import traceback
+import tensorflow as tf
+import time
+
 #Initialize the Flask app
 app = Flask(__name__)
 
-#Load model
-model = models.load_model('/home/tartecki/face-recogn-system/Model/FaceRecogn.h5')
-classes = np.genfromtxt('/home/tartecki/face-recogn-system/Model/classes.txt', dtype='str', delimiter='\n')
+device = tf.config.list_physical_devices('GPU')
+if len(device) > 0:
+   tf.config.experimental.set_memory_growth(device[0],True)
+   tf.config.experimental.set_virtual_device_configuration(device[0],
+     [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=512)])
+
+model = models.load_model("./Model/mdl1")
+
+classes = np.genfromtxt("./Model/classes_mdl1.txt", dtype='str', delimiter='\n')
 print('\nClasses detected:\n', classes)
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
-# camera = cv2.VideoCapture(0)
-camera = cv2.VideoCapture('./images/img_%3d.jpg')
+camera_url = "{0}:80".format(os.environ['CAMERA_SOURCE_SVC'])
+print('Connecting to camera with ip: ', camera_url)
 log = logging.getLogger("mylogger")
+
+# err_png = cv2.VideoCapture('./error.png')
 
 def gen_frames():  
     retries=0
     while True:
-        success, frame = camera.read()  # read the camera frame
-        time.sleep(1)
-        if not success:
-            retries+=1
-            if retries == 2:
-                # print('Cannot find a frame! Exitting program...')
-                log.error('Cannot find a frame! Exitting program...')
-                break
-            else:
-                # print('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
-                log.warning('Cannot find a frame! resetting camera in 3 seconds, retries: ', retries)
-                time.sleep(3)
-                camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
-                # camera = cv2.VideoCapture(0)
-                continue
+        # Loops, creating gRPC client and grabing frame from camera serving specified url.
+        client_channel = grpc.insecure_channel(camera_url, options=(('grpc.use_local_subchannel_pool', 1),))
+        camera_stub = camera_pb2_grpc.CameraStub(client_channel)
+        
+        # try:
+        frame = camera_stub.GetFrame(camera_pb2.NotifyRequest())
+        frame = frame.frame
+        client_channel.close()
+        # except grpc.RpcError as e:
+        #     log.error(e)
+        #     return e, 400
+        #     time.sleep(10)
+        #     continue
 
+        time.sleep(0.05)
+
+        # encode frame to CV2 type
+        nparr = np.fromstring(frame, np.uint8)
+        frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        #start detection
+        # start_time = time.time()
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=8, minSize=(50,50))
         for (x, y, w, h) in faces:
             #print('Person detected!',x, y, w, h)
@@ -52,9 +74,8 @@ def gen_frames():
             if h>incr_by: h+=incr_by
             if w>incr_by: w+=incr_by
 
+            #region of interest from picture in color
             roi_color = frame[y:y+h, x:x+w, :]
-            # roi_gray = gray[y:y+h, x:x+w]   #region of interest
-            # cv2.imwrite(img_item, roi_gray)
             
             #Resize dimensions to match the input to model
             img_array = cv2.resize(roi_color, (256, 256))
@@ -84,8 +105,13 @@ def gen_frames():
             cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(frame, name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
-        
-        # send frame to browser
+
+        # #measure time of detection
+        # end_time = time.time()
+        # time_of_detection=end_time - start_time
+        # print(time_of_detection)
+
+# send frame to browser
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
         yield (b'--frame\r\n'

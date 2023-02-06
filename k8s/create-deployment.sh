@@ -2,19 +2,23 @@
 
 # minikube mount /home/tartecki/face-recogn-system:/home/tartecki/face-recogn-system
 
+# # its already done in ./create-cameras.sh
 # kubectl apply -f namespace.yaml
 # kubectl config set-context --current --namespace=face-recogn
 
-cd volumes
+kubectl apply -f configuration.yaml
 
-kubectl apply -f data-volume.yaml
-kubectl apply -f data-claim.yaml
+# cd volumes
 
-kubectl apply -f model-volume.yaml
-kubectl apply -f model-claim.yaml
+# kubectl apply -f data-volume.yaml
+# kubectl apply -f data-claim.yaml
 
-cd -
+# kubectl apply -f model-volume.yaml
+# kubectl apply -f model-claim.yaml
+
+# cd -
 
 kubectl apply -f webapp-deployment.yaml
 kubectl apply -f frontend-deployment.yaml
 # kubectl apply -f learning-deployment.yaml
+

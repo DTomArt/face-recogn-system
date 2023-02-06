@@ -12,4 +12,5 @@ spec:
   accessModes:
     - ReadOnlyMany
   hostPath:
-    path: "/home/tartecki/face-recogn-system/105_classes_pins_dataset"
+    path: "/home/admin/projects/face-recogn/105_classes_pins_dataset" # edit this path to match your control-plane
+    

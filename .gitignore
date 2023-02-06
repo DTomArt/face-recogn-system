@@ -3,3 +3,4 @@ Model
 .env
 client_secrets.json
 docker-compose.yml
+k8s/configuration.yaml
